@@ -9,10 +9,16 @@ const adminData = require('./admin')
 const rootDir = require('../util/path');
 
 router.get('/', (req, res, next) =>{ //__dirname  global variable which simply holds the absolute path on our operating system 
-    console.log('from shop.js file', adminData.products)
-    res.sendFile(path.join(rootDir, 'views', 'shop.html'))// path.join path join will automatically build the path in a way that works 
-    // a Send allows us to send a response and actually this allows us to attach a body
-// this is another feature provided by express here.
+    const products = adminData.products
+    res.render('shop', {
+        prods: products, pageTitle: 'Shop',
+        pageTitle: 'Shop',
+        path: '/',
+        hasProducts: products.length > 0,
+        activeShop: true,
+        productCSS: true
+        }); // tezu obekti mojem da gi izpolzvame v HTML-a
+    // path go izpozvame za active v html; hasProducts go izpolzvame zashtoto hbs ne chete celi izrazi i za tova ni trqbva promenvliva
 });
 
 module.exports = router;
