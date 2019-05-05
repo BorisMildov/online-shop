@@ -3,29 +3,16 @@ const path = require('path');
 
 const express = require('express');
 
-const rootDir = require('../util/path');
+const productController = require('../controller/products')
 
 const router = express.Router(); // This router is like a mini express app. We can export here, so here 
                                 //I can use module exports
-const products = [];
 // vmesto app pishem router
 // /admin/add-product => GET
-router.get('/add-product', (req, res, next) =>{
-    res.render('add-product', {
-        pageTitle: 'Add Product',
-        path: '/admin/add-product',
-        formsCSS: true,
-        productCSS: true,
-        activeAddProduct: true
-});
+router.get('/add-product', productController.getAddProduct);
 
 // /admin/add-product => POST
-router.post('/add-product', (req, res, next) =>{
-    products.push({ title: req.body.title });
-   });
-    res.redirect('/')
-})
+router.post('/add-product', productController.postAddProduct);
 
 //module.exports = router;
-exports.routes = router; // creading 2 routes objects i gi vikame v app-a
-exports.products = products;
+exports.routes = router; // creading routes objects i gi vikame v app-a
