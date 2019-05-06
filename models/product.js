@@ -9,7 +9,7 @@ const p = path.join(
 
 const getProductsFromFile = (cb) =>{
     
-    fs.readFile(p, (err,fileContent) =>{
+    fs.readFile(p, (err, fileContent) =>{
         if (err) {
            return cb([]);
         }else{
@@ -19,11 +19,14 @@ const getProductsFromFile = (cb) =>{
 };
 
 module.exports = class Product{
-    constructor(t) {
-        this.title = t
+    constructor(title,imageUrl,description, price) {
+        this.title = title,
+        this.imageUrl = imageUrl,
+        this.description = description,
+        this.price = price
     }
 
-    save(){ // its a method available in this class
+    save(){ // its a method available for any obejct
 
         getProductsFromFile(products => {
             products.push(this); 
@@ -33,7 +36,7 @@ module.exports = class Product{
         });
     }; 
 
-    static fetchAll(cb) { //static makes sure that I can call this method directly on the class itself
+    static fetchAll(cb) { //static is available only for the Class itself
         getProductsFromFile(cb)
     }
 }

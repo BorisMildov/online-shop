@@ -3,16 +3,17 @@ const path = require('path');
 
 const express = require('express');
 
-const productController = require('../controller/products')
+const adminController = require('../controller/admin')
 
 const router = express.Router(); // This router is like a mini express app. We can export here, so here 
                                 //I can use module exports
 // vmesto app pishem router
-// /admin/add-product => GET
-router.get('/add-product', productController.getAddProduct);
+router.get('/add-product', adminController.getAddProduct);
 
-// /admin/add-product => POST
-router.post('/add-product', productController.postAddProduct);
+router.get('/products', adminController.getProducts);
 
-//module.exports = router;
-exports.routes = router; // creading routes objects i gi vikame v app-a
+router.post('/add-product', adminController.postAddProduct);
+
+exports.routes = router; 
+// kogato pishem exports.routes tova che mojem da exportvame tochno opradelen obekt; suotveno mojem da go
+// napravim za nqkolko
