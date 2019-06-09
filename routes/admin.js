@@ -14,6 +14,12 @@ router.get('/products', adminController.getProducts);
 
 router.post('/add-product', adminController.postAddProduct);
 
-exports.routes = router; 
+router.get('/edit-product/:productId', adminController.getEditProduct);
+
+router.post('/edit-product', adminController.postEditProduct);
+
+router.post('/delete-product', adminController.postDeleteProduct);
+
+ exports.routes = router; 
 // kogato pishem exports.routes tova che mojem da exportvame tochno opradelen obekt; suotveno mojem da go
 // napravim za nqkolko

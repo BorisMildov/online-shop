@@ -1,42 +1,104 @@
-const fs = require('fs');
-const path = require('path');
+const mongoose = require('mongoose');
 
-const p = path.join(
-    path.dirname(process.mainModule.filename),
-    'data',
-    'products.json'
-); // data folder where I store my 'products.json' in JSON format
+const Schema = mongoose.Schema;
 
-const getProductsFromFile = (cb) =>{
-    
-    fs.readFile(p, (err, fileContent) =>{
-        if (err) {
-           return cb([]);
-        }else{
-            cb(JSON.parse(fileContent))
-        }
-    })
-};
+const productSchema = new Schema({
+  title: {
+    type: String,
+    require: true
+  },
+  price: {
+    type: Number,
+    require: true
+  },
+  description: {
+    type: String,
+    require: true
+  },
+  imageUrl: {
+    type: String,
+    require: true
+  },
+  userId: {
+    type: Schema.Types.ObjectId, //id field
+    ref: 'User', // refer to user's id model here,
+    require: true
+  }
+})
 
-module.exports = class Product{
-    constructor(title,imageUrl,description, price) {
-        this.title = title,
-        this.imageUrl = imageUrl,
-        this.description = description,
-        this.price = price
-    }
+module.exports = mongoose.model('Product', productSchema)
 
-    save(){ // its a method available for any obejct
+// const fs = require('fs');
+// const path = require('path');
 
-        getProductsFromFile(products => {
-            products.push(this); 
-            fs.writeFile(p, JSON.stringify(products), err => {
-                console.log(err);
-            });
-        });
-    }; 
+// const Cart = require('./cart');
 
-    static fetchAll(cb) { //static is available only for the Class itself
-        getProductsFromFile(cb)
-    }
-}
+// const p = path.join(
+//   path.dirname(process.mainModule.filename),
+//   'data',
+//   'products.json'
+// );
+
+// const getProductsFromFile = cb => {
+//   fs.readFile(p, (err, fileContent) => {
+//     if (err) {
+//       cb([]);
+//     } else {
+//       cb(JSON.parse(fileContent));
+//     }
+//   });
+// };
+
+// module.exports = class Product {
+//   constructor(id, title, imageUrl, description, price) {
+//     this.id = id;
+//     this.title = title;
+//     this.imageUrl = imageUrl;
+//     this.description = description;
+//     this.price = price;
+//   }
+
+//   save() {
+//     getProductsFromFile(products => {
+//       if (this.id) {
+//         const existingProductIndex = products.findIndex(
+//           prod => prod.id === this.id
+//         );
+//         const updatedProducts = [...products];
+//         updatedProducts[existingProductIndex] = this;
+//         fs.writeFile(p, JSON.stringify(updatedProducts), err => {
+//           console.log(err);
+//         });
+//       } else {
+//         this.id = Math.random().toString();
+//         products.push(this);
+//         fs.writeFile(p, JSON.stringify(products), err => {
+//           console.log(err);
+//         });
+//       }
+//     });
+//   }
+
+//   static deleteById(id) {
+//     getProductsFromFile(products => {
+//       const product = products.find(prod => prod.id === id);
+//       const updatedProducts = products.filter(prod => prod.id !== id);
+//       fs.writeFile(p, JSON.stringify(updatedProducts), err => {
+//         if (!err) {
+//           Cart.deleteProduct(id, product.price);
+//         }
+//       });
+//     });
+//   }
+
+//   static fetchAll(cb) {
+//     getProductsFromFile(cb);
+//   }
+
+//   static findById(id, cb) {
+//     getProductsFromFile(products => {
+//       const product = products.find(p => p.id === id);
+//       cb(product);
+//     });
+//   }
+// };
